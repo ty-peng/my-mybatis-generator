@@ -12,6 +12,7 @@ import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.Context;
+import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.mybatis.generator.internal.util.StringUtility;
@@ -59,10 +60,13 @@ public class App {
         // 生成
         myBatisGenerator.generate(null);
         // 重命名 sqlmap.xml
-        String sqlMapProjectPath = context.getSqlMapGeneratorConfiguration().getTargetProject();
-        String sqlMapPackagePath = context.getSqlMapGeneratorConfiguration().getTargetPackage();
-        Set<String> fileNames =
-            myBatisGenerator.getGeneratedXmlFiles().stream().map(GeneratedXmlFile::getFileName).collect(Collectors.toSet());
-        RenameUtils.renameSqlMapXml(Paths.get(sqlMapProjectPath, sqlMapPackagePath), fileNames);
+        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = context.getSqlMapGeneratorConfiguration();
+        if (sqlMapGeneratorConfiguration != null) {
+            String sqlMapProjectPath = sqlMapGeneratorConfiguration.getTargetProject();
+            String sqlMapPackagePath = sqlMapGeneratorConfiguration.getTargetPackage();
+            Set<String> fileNames =
+                myBatisGenerator.getGeneratedXmlFiles().stream().map(GeneratedXmlFile::getFileName).collect(Collectors.toSet());
+            RenameUtils.renameSqlMapXml(Paths.get(sqlMapProjectPath, sqlMapPackagePath), fileNames);
+        }
     }
 }
