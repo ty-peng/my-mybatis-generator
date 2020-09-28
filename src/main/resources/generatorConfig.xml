@@ -1,0 +1,27 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="simple" targetRuntime="MyBatis3Simple">
+        <commentGenerator type="com.typeng.generator.comment.MyCommentGenerator">
+            <property name="addRemarkComments" value="true"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <property name="since" value="v1019"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL=""
+                        userId=""
+                        password=""/>
+
+        <javaModelGenerator targetProject="\tmp\code" targetPackage="model"/>
+        <sqlMapGenerator targetProject="\tmp\code" targetPackage="xml"/>
+        <javaClientGenerator type="XMLMAPPER" targetProject="\tmp\code" targetPackage="dao"
+                             implementationPackage="dao.mybatis"/>
+
+        <table tableName=""
+               domainObjectName=""
+               mapperName="">
+            <domainObjectRenamingRule searchString="(^T)|(\d+$)" replaceString=""/>
+        </table>
+    </context>
+</generatorConfiguration>
