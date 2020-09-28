@@ -6,7 +6,8 @@
         <commentGenerator type="com.typeng.generator.comment.MyCommentGenerator">
             <property name="addRemarkComments" value="true"/>
             <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
-            <property name="since" value="v1019"/>
+            <property name="since" value=""/>
+            <property name="author" value=""/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL=""

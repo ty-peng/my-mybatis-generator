@@ -37,6 +37,7 @@ public class MyCommentGenerator implements CommentGenerator {
     private boolean suppressAllComments = false;
     private boolean addRemarkComments = false;
     private String since;
+    private String author;
     private SimpleDateFormat dateFormat;
 
     public MyCommentGenerator() {}
@@ -69,6 +70,7 @@ public class MyCommentGenerator implements CommentGenerator {
         this.suppressAllComments = StringUtility.isTrue(properties.getProperty("suppressAllComments"));
         this.addRemarkComments = StringUtility.isTrue(properties.getProperty("addRemarkComments"));
         this.since = properties.getProperty("since");
+        this.author = properties.getProperty("author");
         String dateFormatString = properties.getProperty("dateFormat");
         if (StringUtility.stringHasValue(dateFormatString)) {
             this.dateFormat = new SimpleDateFormat(dateFormatString);
@@ -99,6 +101,7 @@ public class MyCommentGenerator implements CommentGenerator {
             this.addDocDbRemarks(topLevelClass, introspectedTable.getRemarks());
             this.addDocTableInfo(topLevelClass, introspectedTable);
             this.addDocBlankLine(topLevelClass);
+            this.addDocAuthorTag(topLevelClass);
             this.addDocDateTag(topLevelClass, false);
             this.addDocSinceTag(topLevelClass);
             this.addDocFooter(topLevelClass);
@@ -255,6 +258,12 @@ public class MyCommentGenerator implements CommentGenerator {
     protected void addDocSinceTag(JavaElement javaElement) {
         if (StringUtility.stringHasValue(since)) {
             javaElement.addJavaDocLine(" * @since " + since);
+        }
+    }
+
+    protected void addDocAuthorTag(JavaElement javaElement) {
+        if (StringUtility.stringHasValue(author)) {
+            javaElement.addJavaDocLine(" * @author " + author);
         }
     }
 
