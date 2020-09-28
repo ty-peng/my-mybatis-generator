@@ -5,7 +5,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.Context;
@@ -58,6 +61,8 @@ public class App {
         // 重命名 sqlmap.xml
         String sqlMapProjectPath = context.getSqlMapGeneratorConfiguration().getTargetProject();
         String sqlMapPackagePath = context.getSqlMapGeneratorConfiguration().getTargetPackage();
-        RenameUtils.renameSqlMapXml(Paths.get(sqlMapProjectPath, sqlMapPackagePath));
+        Set<String> fileNames =
+            myBatisGenerator.getGeneratedXmlFiles().stream().map(GeneratedXmlFile::getFileName).collect(Collectors.toSet());
+        RenameUtils.renameSqlMapXml(Paths.get(sqlMapProjectPath, sqlMapPackagePath), fileNames);
     }
 }

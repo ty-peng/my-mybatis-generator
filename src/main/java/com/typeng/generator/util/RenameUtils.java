@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
+import java.util.Set;
 
 import com.google.common.base.CaseFormat;
 
@@ -24,9 +25,10 @@ public class RenameUtils {
      * UPPER_CAMEL -> LOWER_UNDERSCORE.
      *
      * @param path path
+     * @param specifiedFileNames 指定的文件名称
      * @throws IOException e
      */
-    public static void renameSqlMapXml(Path path) throws IOException {
+    public static void renameSqlMapXml(Path path, Set<String> specifiedFileNames) throws IOException {
         FileVisitor<Path> renameVisitor = new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
@@ -34,12 +36,14 @@ public class RenameUtils {
                 Objects.requireNonNull(attrs);
                 String parentPath = path.getParent().toString() + "/";
                 String oldFileName = path.getFileName().toString();
-                String newFileName = oldFileName.replaceAll("^I(?=(?!^)[A-Z])|(([Dd]+ao)*\\.xml$)", "");
-                newFileName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, newFileName);
-                newFileName = newFileName + "_sqlmap.xml";
-                File dest = new File(parentPath + newFileName);
-                File file = path.toFile();
-                boolean renamed = file.renameTo(dest);
+                if (specifiedFileNames == null || specifiedFileNames.contains(oldFileName)) {
+                    String newFileName = oldFileName.replaceAll("^I(?=(?!^)[A-Z])|(([Dd]+ao)*\\.xml$)", "");
+                    newFileName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, newFileName);
+                    newFileName = newFileName + "_sqlmap.xml";
+                    File dest = new File(parentPath + newFileName);
+                    File file = path.toFile();
+                    boolean renamed = file.renameTo(dest);
+                }
                 return FileVisitResult.CONTINUE;
             }
         };
