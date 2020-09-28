@@ -97,8 +97,8 @@ public class MyCommentGenerator implements CommentGenerator {
         if (!this.suppressAllComments) {
             this.addDocHeader(topLevelClass);
             this.addDocDbRemarks(topLevelClass, introspectedTable.getRemarks());
-            this.addDocBlankLine(topLevelClass);
             this.addDocTableInfo(topLevelClass, introspectedTable);
+            this.addDocBlankLine(topLevelClass);
             this.addDocDateTag(topLevelClass, false);
             this.addDocSinceTag(topLevelClass);
             this.addDocFooter(topLevelClass);
